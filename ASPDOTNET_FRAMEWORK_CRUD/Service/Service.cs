@@ -64,7 +64,7 @@ namespace ASPDOTNET_FRAMEWORK_CRUD.Service
             }
         }
 
-        public void UpdateData(int productId, string value1, string value2)
+        public void UpdateDataProduct(int productId, string value1, string value2)
         {
             try
             {
@@ -89,6 +89,25 @@ namespace ASPDOTNET_FRAMEWORK_CRUD.Service
             try
             {
                 string selectQuery = "SELECT a.*,b.CategoryName FROM tbproduct as a INNER JOIN tbcategory as b ON a.CategoryId = b.CategoryId ";
+                DataTable dt = executeQuery(selectQuery);
+                return dt;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public DataTable GetOneRecordProduct(string productId)
+        {
+            try
+            {
+                string condition = "";
+                if (!string.IsNullOrEmpty(productId))
+                {
+                    condition = $"AND ProductId = '{productId}'";
+                }
+                string selectQuery = $"SELECT * FROM tbproduct WHERE 1=1 {condition}";
                 DataTable dt = executeQuery(selectQuery);
                 return dt;
             }
