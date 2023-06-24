@@ -82,6 +82,13 @@
                                     <td><%# Eval("CategoryName") %></td>
                                     <td>
                                         <asp:Button runat="server" OnClick="BtnUpdateProduct" ProductId='<%# Eval("ProductId") %>' CssClass="btn btn-warning text-white" Text="Edit" />
+                                        <asp:Button runat="server" OnClientClick="return ConfirmDelete(this,event);" CssClass="btn btn-danger" Text="Delete" 
+                                 ID="btnDeleteProduct"
+                                            />
+                                        <asp:Button Text="text" CssClass="hide"
+                                            OnClick="BtnDeleteProduct"
+                                            ProductId='<%# Eval("ProductId") %>' 
+                                            runat="server" />
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -101,5 +108,25 @@
                 $('#dataTable').DataTable();
             });
         }
+        function ConfirmDelete(button,event) {
+            event.preventDefault();
+            console.log(button)
+            Swal.fire({
+                title: 'Confirm Delete',
+                text: 'Are you sure you want to delete this item?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(function (result) {
+                if (result.value) {
+                    $(button).next().click();
+                } else {
+                    return false;
+                }
+            });
+        }
+
     </script>
 </asp:Content>

@@ -136,6 +136,16 @@ namespace ASPDOTNET_FRAMEWORK_CRUD.Service
             }
         }
 
+        public void Warning(string warning)
+        {
+            Page page = HttpContext.Current.Handler as Page;
+            if (page != null)
+            {
+                string success = $"Swal.fire('{warning}',  '',  'warning')";
+                ScriptManager.RegisterStartupScript(page, typeof(Service), "scriptAlertSuccess", success, true);
+            }
+        }
+
         public DataTable SelectDataCategory()
         {
             try
@@ -150,7 +160,7 @@ namespace ASPDOTNET_FRAMEWORK_CRUD.Service
             }
         }
 
-        public void DeleteData(int productId)
+        public void DeleteProduct(string productId)
         {
             try
             {

@@ -27,12 +27,9 @@ namespace ASPDOTNET_FRAMEWORK_CRUD
             {
                 DataTable dt = ServiceS.SelectData();
                 DataTable dtCategory = ServiceS.SelectDataCategory();
-                if (dt.Rows.Count > 0)
-                {
-                    rptProduct.DataSource = dt;
-                    rptProduct.DataBind();
-                    udpTableProduct.Update();
-                }
+                rptProduct.DataSource = dt;
+                rptProduct.DataBind();
+                udpTableProduct.Update();
                 if (dtCategory.Rows.Count > 0)
                 {
                     // drop down List
@@ -73,7 +70,7 @@ namespace ASPDOTNET_FRAMEWORK_CRUD
             try
             {
                 Button btn = sender as Button;
-               
+
                 string getProductId = btn.Attributes["ProductId"];
                 DataTable dtProduct = ServiceS.GetOneRecordProduct(getProductId);
                 updTxtProductName.Text = dtProduct.Rows[0]["ProductName"].ToString();
@@ -86,7 +83,7 @@ namespace ASPDOTNET_FRAMEWORK_CRUD
 
                 //selected Dropdown List
                 ListItem defaultDdlCategory = udpDdlCategory.Items.FindByValue(dtProduct.Rows[0]["CategoryId"].ToString());
-                if(defaultDdlCategory != null)
+                if (defaultDdlCategory != null)
                 {
                     defaultDdlCategory.Selected = true;
                 }
@@ -115,6 +112,26 @@ namespace ASPDOTNET_FRAMEWORK_CRUD
             finally
             {
                 ServiceS.DoJavascript("$('#modalUpdateProduct').modal('hide'); BinddingDatTable();");
+            }
+        }
+
+        protected void BtnDeleteProduct(object sender, EventArgs e)
+        {
+            try
+            {
+                Button btn = sender as Button;
+                string getProductId = btn.Attributes["ProductId"].Trim();
+                ServiceS.DeleteProduct(getProductId);
+                ServiceS.Success();
+                BindDataProduct();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                ServiceS.DoJavascript("BinddingDatTable();");
             }
         }
     }
